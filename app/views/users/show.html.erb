@@ -3,6 +3,19 @@
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
 
-<h2> hello, world! </h2>
+<h1>
+    User
+</h1>
 
-<%= debug(@user) %>
+<div>
+    <table>
+        <tr>
+            <th> username </th>
+            <th> password </th>
+        </tr>
+        <tr>
+            <td> <%= @user.email %> </td>
+            <td> <%= @user.password %> </td>
+        </tr>
+    </table>
+</div>
