@@ -1,4 +1,10 @@
 class UsersController < ApplicationController
+    /* 
+     * TODO: 
+     * [x] Basic user auth
+     * [ ] Admin auth
+     * [ ] Testing!
+     */ 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
