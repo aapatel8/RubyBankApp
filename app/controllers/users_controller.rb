@@ -4,6 +4,8 @@ class UsersController < ApplicationController
      * [x] Basic user auth
      * [ ] Admin auth
      * [ ] Testing!
+
+     * Uses https://stackoverflow.com/questions/21904701/ruby-on-rails-4-what-authentication-gem-to-use to get started
 =end 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
