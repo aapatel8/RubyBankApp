@@ -1,0 +1,5 @@
+<% @current_user.accounts.each do |account| %>
+    <ul>
+        <li> <%= account.BankName.to_s + ", " + account.Balance.to_s %>
+    </ul>
+<% end %>

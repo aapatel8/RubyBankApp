@@ -5,5 +5,7 @@ class DashboardController < ApplicationController
         if !user_signed_in?
             redirect_to :controller => 'devise', :action => 'sessions#new'
         end
+
+        @current_user = current_user
     end
 end
