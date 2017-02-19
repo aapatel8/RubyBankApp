@@ -10,6 +10,16 @@
       </ul>
     </div>
   <% end %>
+  <div class="fields">
+      <p>
+          <%= f.label :BankName %> <br />
+          <%= f.text_field :BankName %>
+      </p>
+      <p>
+          <%= f.label :Balance %>
+          <%= f.text_field :Balance %>
+      </p>
+  </div>
 
   <div class="actions">
     <%= f.submit %>
