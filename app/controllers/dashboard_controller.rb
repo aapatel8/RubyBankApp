@@ -7,5 +7,6 @@ class DashboardController < ApplicationController
         end
 
         @current_user = current_user
+        @uid = @current_user.id
     end
 end
