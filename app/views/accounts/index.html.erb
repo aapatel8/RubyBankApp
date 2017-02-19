@@ -10,8 +10,8 @@
   </thead>
 
   <tbody>
+    <% @accounts.each do |account| %>
       <tr>
-        <h1> <%= account.inspect %> </h1>
         <td><%= account.BankName %></td>
         <td><%= account.Balance %></td>
         <td><%= link_to 'Show', account %></td>
