@@ -38,19 +38,19 @@ ActiveRecord::Schema.define(version: 20170219181804) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
+  create_table "friends", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "friend_of"
+    t.integer  "friend_id"
+  end
+
   create_table "transactions", force: :cascade do |t|
     t.integer  "account_id"
     t.integer  "amount"
     t.string   "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "friends", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "friend_of"
-    t.integer  "friend_id"
   end
 
   create_table "users", force: :cascade do |t|
