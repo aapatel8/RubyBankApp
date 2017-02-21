@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   resources :users
   resources :friends
 
-
-  get '/dashboard', to: 'dashboard#show'
-  get '/dashboard/:id', to: 'dashboard#show'
+  # We only need a show route for the dashboard. 
+  # This correctly generates the helpers we need with :id
+  resources :dashboard, only: [:show]
 
   get '/request', to: 'request#index'
 
