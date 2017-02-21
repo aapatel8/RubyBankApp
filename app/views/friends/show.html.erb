@@ -1,3 +1,33 @@
 <p id="notice"><%= notice %></p>
 
 <%= link_to 'Back', friends_path %>
+
+<h1>
+  Friend
+</h1>
+
+<div>
+  <table>
+    <tr>
+      <th> Friend Of </th>
+      <th> Friend ID </th>
+      <th> Request $20 </th>
+      <th> Request $50 </th>
+      <th> Request $100 </th>
+      <th> Request $250 </th>
+      <th> Request $500 </th>
+    </tr>
+    <tr>
+      <td> <%= @friend.friend_of %> </td>
+      <td> <%= @friend.friend_id %> </td>
+      <td> <%= mail_to @user.email, "Click Here", subject: "Your friend has requested money",
+                       body:"Dear #{@user.name},
+                       Your friend #{@self.name} has requested money.  Paste the following link to accept:
+      http://bank/request?to=#{@friend.friend_of}&from=#{@friend.friend_id}&amount=20
+
+      Thank you,
+      Your Bank
+      "%> </td>
+    </tr>
+  </table>
+</div>

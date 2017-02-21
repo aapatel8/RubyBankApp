@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   resources :users
   resources :friends
 
+
   get '/dashboard', to: 'dashboard#show'
   get '/dashboard/:id', to: 'dashboard#show'
+
+  get '/request', to: 'request#index'
 
   root :to => 'dashboard#show'
 
