@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :dashboard, only: [:show]
 
   get '/dashboard/', to: 'dashboard#show'
+  
+  resource :admin_dashboard, only: [:show]
 
   get '/request', to: 'request#index'
 
