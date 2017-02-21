@@ -8,5 +8,13 @@ class DashboardController < ApplicationController
 
         @current_user = current_user
         @uid = @current_user.id
+
+        @selectedAccount = @current_user.accounts.find_by_id(params[:id])
+
+        if @selectedAccount == nil
+            @transactions = []
+        else 
+            @transactions = @selectedAccount.transactions
+        end
     end
 end
