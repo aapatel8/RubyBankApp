@@ -10,6 +10,9 @@ class FriendsController < ApplicationController
   # GET /friends/1
   # GET /friends/1.json
   def show
+    @friend = Friend.find(params[:id])
+    @user = User.find(@friend.friend_id)
+    @self = User.find(@friend.friend_of)
   end
 
   # GET /friends/new
