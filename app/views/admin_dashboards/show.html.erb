@@ -1,1 +1,7 @@
 <h1> Welcome to your admin dashboard! </h1>
+
+<ul>
+<% @pendingXacts.each do |xact|  %>
+    <li> <%= xact.inspect %> </li>
+<% end  %>
+</ul
