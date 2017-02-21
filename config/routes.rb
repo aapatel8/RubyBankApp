@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # This correctly generates the helpers we need with :id
   resources :dashboard, only: [:show]
 
+  get '/dashboard/', to: 'dashboard#show'
+
   get '/request', to: 'request#index'
 
   root :to => 'dashboard#show'
