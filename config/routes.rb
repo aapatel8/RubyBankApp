@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :friends
 
   get '/dashboard', to: 'dashboard#show'
-  get '/dashboard/:id', to:'dashboard#show'
+  get '/dashboard/:id', to: 'dashboard#show'
 
   root :to => 'dashboard#show'
 

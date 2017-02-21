@@ -9,12 +9,22 @@ class DashboardController < ApplicationController
         @current_user = current_user
         @uid = @current_user.id
 
-        @selectedAccount = @current_user.accounts.find_by_id(params[:id])
+        @selectedAccount = @current_user.accounts.find_by_id(params[:format])
+
 
         if @selectedAccount == nil
-            @transactions = []
-        else 
-            @transactions = @selectedAccount.transactions
+            @selectedAccount = @current_user.accounts.first
         end
+
+        @transactions = @selectedAccount.transactions
+
+        if @transactions == nil
+            @transactions = []
+        end
+
+
+        @newTransaction = Transaction.new
+
+        @newTransaction.account_id = @selectedAccount.id
     end
 end
