@@ -1,13 +1,6 @@
 <% @current_user.accounts.each do |account| %>
     <ul>
         <li> <%= account.BankName.to_s + ", " + account.Balance.to_s %>
-        <li>
-            <ul>
-                <% account.transactions.each do |xact|  %>
-                    <li> <%= xact.amount.to_s + ", " + xact.status.to_s %></li>
-                <% end  %>
-            </ul>
-        </li>
     </ul>
 <% end %>
 
