@@ -63,7 +63,7 @@ class AdminsController < ApplicationController
   # DELETE /admins/1
   # DELETE /admins/1.json
   def destroy
-    if @admin.id == 1
+    if @admin.email == "admin@bank.de"
       raise IllegalOperationException
     end
     @admin.destroy
