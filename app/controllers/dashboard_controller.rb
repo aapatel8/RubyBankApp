@@ -21,7 +21,9 @@ class DashboardController < ApplicationController
         end
 
         # We need to store the selected account's transactiosn for display!
-        @transactions = @selectedAccount.transactions
+        if @selectedAccount != nil
+            @transactions = @selectedAccount.transactions
+        end
 
         # If transactiosn aren't there, assing a zero element array so the view doesn't die
         if @transactions == nil
@@ -31,6 +33,9 @@ class DashboardController < ApplicationController
 
         # Set up a new transaction with the selected account's ID in case we want to add a new transaction
         @newTransaction = Transaction.new
-        @newTransaction.account_id = @selectedAccount.id
+
+        if @selectedAccount != nil
+            @newTransaction.account_id = @selectedAccount.id
+        end
     end
 end
