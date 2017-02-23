@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Friends</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <h3> Your friends </h3>
+  <tbody>
+  <% @friendships.each do |friendship| %>
+      <tr>
+        <td> <%= friendship.friend.email%> </td>
+        <td> 
+            <%= form_tag friendship_path(friendship), :method => :delete do %>
+                <div> <%= submit_tag 'Remove friend' %> </div>
+            <% end  %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
+<h3> Users (doesn't everybody need more friends?)</h3>
+<table>
+  <thead>
+  <tr>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @potentialFriends.each do |user| %>
+      <tr>
+        <td><%= user.email%> </td>
+        <td> 
+            <%= form_tag friendship_index_path(:friend_id => user), :method => :post do %>
+                <div> <%= submit_tag 'Add friend' %> </div>
+            <% end  %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>

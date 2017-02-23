@@ -6,10 +6,10 @@ Rails.application.routes.draw do
 
   resources :transactions
   devise_for :admins
-  devise_for :users
+  devise_for :users 
   resources :accounts
-  resources :users
-  resources :friends
+  resources :users, only: [:new, :edit, :update, :delete]
+  resources :friendship, only: [:index, :create, :destroy]
 
   # We only need a show route for the dashboard. 
   # This correctly generates the helpers we need with :id
