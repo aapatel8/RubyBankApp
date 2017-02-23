@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+  get '/users/search', to: 'users#search'
+  post '/users/search', to: 'users#search'
+
+
   resources :transactions
   devise_for :admins
   devise_for :users
@@ -17,6 +22,8 @@ Rails.application.routes.draw do
   get '/request', to: 'request#index'
 
   root :to => 'dashboard#show'
+
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

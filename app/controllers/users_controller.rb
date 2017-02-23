@@ -9,6 +9,8 @@ class UsersController < ApplicationController
 =end 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  @user
+
   # GET /users
   # GET /users.json
   def index
@@ -67,6 +69,20 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def search
+    if params[:param]!=nil
+    if(params[:type] == "email")
+      @users = User.where("email like '" + params[:param] + "'")
+      puts "email like '%" + params[:param] + "%'"
+
+    else
+      @users = User.where("name like '%" + params[:param] + "%'")
+      puts "name like '" + params[:param] + "'"
+
+    end
     end
   end
 

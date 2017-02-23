@@ -1,0 +1,33 @@
+<h1>Search For User</h1>
+
+
+<%= form_tag do %>
+
+    <%= label_tag(:param, "Search for:") %>
+    <%= text_field_tag(:param) %>
+    <%= label_tag(:type, "Type:") %>
+    <%= text_field_tag(:type) %>
+    <%= submit_tag("Search") %>
+<% end %>
+<br><br>
+<table>
+  <thead>
+  <td>Name</td>
+  <td>Email</td>
+  <td>ID</td>
+  </thead>
+<tbody>
+  <% if @users != nil
+    @users.each do |user| %>
+      <tr>
+        <td> <%= user.name %> </td>
+        <td> <%= user.email%> </td>
+        <td>  <%= user.id%> </td>
+      </tr>
+    <% end %>
+  <% end %>
+</tbody>
+</table>
+<br><br>
+<%= link_to 'Back', users_path %>
+
