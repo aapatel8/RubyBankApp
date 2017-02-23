@@ -75,12 +75,12 @@ class UsersController < ApplicationController
   def search
     if params[:param]!=nil
     if(params[:type] == "email")
-      @users = User.where("email like '" + params[:param] + "'")
-      puts "email like '%" + params[:param] + "%'"
+      @users = User.where("email like '%" + params[:param] + "%'")
+
 
     else
       @users = User.where("name like '%" + params[:param] + "%'")
-      puts "name like '" + params[:param] + "'"
+
 
     end
     end
