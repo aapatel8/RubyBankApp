@@ -19,6 +19,10 @@
           <%= f.label :Balance %>
           <%= f.text_field :Balance %>
       </p>
+    <p>
+        <%= f.label :Status %>
+        <%= f.select :status, ['enabled', 'disabled']%>
+    </p>
   </div>
 
   <div class="actions">
