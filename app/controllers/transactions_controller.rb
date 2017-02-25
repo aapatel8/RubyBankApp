@@ -26,9 +26,29 @@ class TransactionsController < ApplicationController
   def create
     @transaction = Transaction.new(transaction_params)
 
+    @current_user = current_user
+
+    if (@transaction.source_account_id == @transaction.dest_account_id)
+      raise ArgumentError.new('Source and destination accounts cannot be the same')
+    end
+
+    if (!@current_user.accounts.ids.include?(@transaction.source_account_id) && !@current_user.accounts.ids.include?(@transaction.dest_account_id))
+      raise ArgumentError.new('Source or destination account must be owned by you')
+    end
+
+    @transaction.status = "Pending"
+    if (@transaction.amount < 1000)
+      @transaction.status = "Completed"
+    end
     respond_to do |format|
       if @transaction.save
-        format.html { redirect_to dashboard_path(@transaction.account_id), notice: 'Transaction was successfully created.' }
+        @source_account = Account.find_by_id(@transaction.source_account_id)
+        @new_source_balance = @source_account.Balance - @transaction.amount
+        @source_account.update_attributes(:Balance => @new_source_balance)
+        @dest_account = Account.find_by_id(@transaction.dest_account_id)
+        @new_dest_balance = @dest_account.Balance + @transaction.amount
+        @dest_account.update_attributes(:Balance => @new_dest_balance)
+        format.html { redirect_to transactions_url, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :new }
@@ -42,7 +62,7 @@ class TransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
-          format.html { redirect_to dashboard_path(@transaction.account_id), notice: 'Transaction was successfully updated.' }
+          format.html { redirect_to transactions_url, notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
         format.html { render :edit }
@@ -69,6 +89,6 @@ class TransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
-      params.require(:transaction).permit(:account_id, :amount, :status)
+      params.require(:transaction).permit(:source_account_id, :dest_account_id, :amount)
     end
 end
