@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   post '/users/search', to: 'users#search'
 
 
+
   resources :transactions
   devise_for :admins
   devise_for :users 

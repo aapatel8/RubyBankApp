@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223155321) do
+ActiveRecord::Schema.define(version: 20170225193913) do
 
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20170223155321) do
     t.string   "BankName"
     t.float    "Balance"
     t.integer  "user_id"
+    t.string   "status"
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 

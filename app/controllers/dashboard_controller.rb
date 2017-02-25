@@ -38,12 +38,5 @@ class DashboardController < ApplicationController
             #@newTransaction.account_id = @selectedAccount.id
         end
 
-        # @available_accounts = Account.find_by_user_id(@current_user.id)
-        #
-        # @friendsIds = Friendship.all.find_by_user_id(@current_user.id).friend_id
-        #
-        # @friendsIds.each do |friendId|
-        #     @available_accounts += Account.find_by_user_id(friendId)
-        # end
-    end
+       end
 end
