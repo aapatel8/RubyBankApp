@@ -16,6 +16,12 @@
         <td><%= transaction.dest_account_id %></td>
         <td><%= transaction.amount %></td>
         <td><%= transaction.status %></td>
+        <% if transaction.status == "Requested" && transaction.source_account_id == @selectedAccount.id %>
+          <td><%= button_to "Accept", { :controller => "transactions", :action => "request_accept", :id => transaction.id} %></td>
+        <% end %>
+        <% if transaction.status == "Requested" && transaction.source_account_id == @selectedAccount.id %>
+            <td><%= button_to "Decline", { :controller => "transactions", :action => "request_decline", :id => transaction.id} %></td>
+        <% end %>
       </tr>
   <% end %>
   </tbody>

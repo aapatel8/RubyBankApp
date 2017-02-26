@@ -23,7 +23,8 @@ Rails.application.routes.draw do
 
   root :to => 'dashboard#show'
 
-
+  post '/transactions/request_accept', to: 'transactions#request_accept'
+  post '/transactions/request_decline', to: 'transactions#request_decline'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

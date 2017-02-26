@@ -40,15 +40,32 @@ class TransactionsController < ApplicationController
     if (@transaction.amount < 1000)
       @transaction.status = "Completed"
     end
+
+    if ((@transaction.source_account_id != nil) && (@transaction.dest_account_id != nil))
+      @request_from_friend = false
+      @current_user.friends.each do |friend|
+        friend.accounts.each do |account|
+          if (account.id == @transaction.source_account_id)
+            @has_friend_account = true
+            @transaction.status = "Requested"
+          end
+        end
+      end
+    end
+
     respond_to do |format|
       if @transaction.save
-        @source_account = Account.find_by_id(@transaction.source_account_id)
-        @new_source_balance = @source_account.Balance - @transaction.amount
-        @source_account.update_attributes(:Balance => @new_source_balance)
-        @dest_account = Account.find_by_id(@transaction.dest_account_id)
-        @new_dest_balance = @dest_account.Balance + @transaction.amount
-        @dest_account.update_attributes(:Balance => @new_dest_balance)
-        format.html { redirect_to transactions_url, notice: 'Transaction was successfully created.' }
+        if (@transaction.source_account_id != nil && @transaction.status != "Requested")
+          @source_account = Account.find_by_id(@transaction.source_account_id)
+          @new_source_balance = @source_account.Balance - @transaction.amount
+          @source_account.update_attributes(:Balance => @new_source_balance)
+        end
+        if (@transaction.dest_account_id != nil && @transaction.status != "Requested")
+          @dest_account = Account.find_by_id(@transaction.dest_account_id)
+          @new_dest_balance = @dest_account.Balance + @transaction.amount
+          @dest_account.update_attributes(:Balance => @new_dest_balance)
+        end
+        format.html { redirect_to :back, notice: 'Transaction was successfully created.' }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :new }
@@ -62,7 +79,7 @@ class TransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
-          format.html { redirect_to transactions_url, notice: 'Transaction was successfully updated.' }
+          format.html { redirect_to :back, notice: 'Transaction was successfully updated.' }
         format.json { render :show, status: :ok, location: @transaction }
       else
         format.html { render :edit }
@@ -76,9 +93,32 @@ class TransactionsController < ApplicationController
   def destroy
     @transaction.destroy
     respond_to do |format|
-      format.html { redirect_to transactions_url, notice: 'Transaction was successfully destroyed.' }
+      format.html { redirect_to :back, notice: 'Transaction was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def request_accept
+    @source_account_id = Transaction.find_by_id(params[:id]).source_account_id
+    @amount = Transaction.find_by_id(params[:id]).amount
+    @source_account = Account.find_by_id(@source_account_id)
+    @new_source_balance = @source_account.Balance - @amount
+    @source_account.update_attributes(:Balance => @new_source_balance)
+    Transaction.find_by_source_account_id(@source_account_id).update_attributes(:status => "Completed")
+
+    @dest_account_id = Transaction.find_by_id(params[:id]).dest_account_id
+    @amount = Transaction.find_by_id(params[:id]).amount
+    @dest_account = Account.find_by_id(@dest_account_id)
+    @new_dest_balance = @dest_account.Balance + @amount
+    @dest_account.update_attributes(:Balance => @new_dest_balance)
+    Transaction.find_by_dest_account_id(@dest_account_id).update_attributes(:status => "Completed")
+  end
+
+  def request_decline
+    @source_account_id = Transaction.find_by_id(params[:id]).source_account_id
+    @dest_account_id = Transaction.find_by_id(params[:id]).dest_account_id
+    Transaction.find_by_source_account_id(@source_account_id).update_attributes(:status => "Completed")
+    Transaction.find_by_dest_account_id(@dest_account_id).update_attributes(:status => "Completed")
   end
 
   private
