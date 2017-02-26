@@ -37,5 +37,6 @@ class DashboardController < ApplicationController
         if @selectedAccount != nil
             @newTransaction.account_id = @selectedAccount.id
         end
-    end
+
+       end
 end
