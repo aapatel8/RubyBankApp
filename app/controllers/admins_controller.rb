@@ -9,10 +9,13 @@ class AdminsController < ApplicationController
 =end
   before_action :set_admin, only: [:show, :edit, :update, :destroy]
 
+  before_action :authenticate_admin!
+
   # GET /admins
   # GET /admins.json
   def index
     @admins = Admin.all
+    @invincibleAdmin = Admin.GetDefaultAdmin
   end
 
   # GET /admins/1
@@ -65,7 +68,10 @@ class AdminsController < ApplicationController
   # DELETE /admins/1
   # DELETE /admins/1.json
   def destroy
-    if @admin.email == "admin@bank.de"
+    # Lets find the original admin and not let them delete that
+      @invincibleAdmin = Admin.GetDefaultAdmin
+
+    if @admin.email == @invincibleAdmin.email 
       raise IllegalOperationException
     end
     @admin.destroy
