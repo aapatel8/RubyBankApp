@@ -28,11 +28,13 @@ class AdminsController < ApplicationController
 
   # GET /admins/1/edit
   def edit
+    @admin = Admin.find( params[:id] )
   end
 
   # POST /admins
   # POST /admins.json
   def create
+      logger.debug('In create!')
     @admin = Admin.new(admin_params)
 
     respond_to do |format|
@@ -81,6 +83,6 @@ class AdminsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def admin_params
-    params.require(:admin).permit(:name, :email, :password)
+    params.require(:admin).permit(:email, :password)
   end
 end

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   devise_for :users 
   resources :accounts
   resources :users, only: [:new, :edit, :update, :delete]
+  resources :admins, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   resources :friendship, only: [:index, :create, :destroy]
 
   # We only need a show route for the dashboard. 
