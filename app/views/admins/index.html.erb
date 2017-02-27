@@ -1,0 +1,26 @@
+<table class="table">
+    <% @admins.each do |admin| %>
+    <tr>
+        <td>
+            <%= admin.email %>
+        </td>
+
+        <td>
+            <%= link_to "view", admin_path(admin) %>
+        </td>
+
+        <td>
+            <% if admin != @invincibleAdmin  %>
+                <%= link_to "delete", admin_path(admin), method: :delete %>
+            <% end  %>
+        </td>
+
+        <td>
+            <%= link_to "edit", edit_admin_path(admin) %>
+        </td>
+    </tr>
+
+    <% end  %>
+</table>
+
+<%= link_to 'New admin', new_admin_path %>
