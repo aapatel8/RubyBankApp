@@ -15,9 +15,7 @@
       <tr>
         <td> <%= friendship.friend.email%> </td>
         <td> 
-            <%= form_tag friendship_path(friendship), :method => :delete do %>
-                <div> <%= submit_tag 'Remove friend' %> </div>
-            <% end  %>
+            <%= button_to "Remove friend", friendship_path(friendship), :method => :delete, :form_class => "link_button_form" %>
         </td>
       </tr>
   <% end %>
@@ -38,14 +36,16 @@
 
   <tbody>
   <% @potentialFriends.each do |user| %>
+      <% if user != @current_user  %>
       <tr>
         <td><%= user.email%> </td>
         <td> 
-            <%= form_tag friendship_index_path(:friend_id => user), :method => :post do %>
-                <div> <%= submit_tag 'Add friend' %> </div>
-            <% end  %>
+            <% if @friendships.find_by_friend_id(user) == nil %>
+                <%= button_to "Add friend", friendship_index_path(:friend_id => user), :method => :post, :form_class => "link_button_form" %>
+            <% end %>
         </td>
       </tr>
+      <% end %>
   <% end %>
   </tbody>
 </table>
