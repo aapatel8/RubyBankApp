@@ -9,10 +9,13 @@ class AdminsController < ApplicationController
 =end
   before_action :set_admin, only: [:show, :edit, :update, :destroy]
 
+  before_action :authenticate_admin!
+
   # GET /admins
   # GET /admins.json
   def index
     @admins = Admin.all
+    @invincibleAdmin = Admin.GetDefaultAdmin
   end
 
   # GET /admins/1
@@ -28,11 +31,13 @@ class AdminsController < ApplicationController
 
   # GET /admins/1/edit
   def edit
+    @admin = Admin.find( params[:id] )
   end
 
   # POST /admins
   # POST /admins.json
   def create
+      logger.debug('In create!')
     @admin = Admin.new(admin_params)
 
     respond_to do |format|
@@ -63,7 +68,10 @@ class AdminsController < ApplicationController
   # DELETE /admins/1
   # DELETE /admins/1.json
   def destroy
-    if @admin.email == "admin@bank.de"
+    # Lets find the original admin and not let them delete that
+      @invincibleAdmin = Admin.GetDefaultAdmin
+
+    if @admin.email == @invincibleAdmin.email 
       raise IllegalOperationException
     end
     @admin.destroy
@@ -81,6 +89,6 @@ class AdminsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def admin_params
-    params.require(:admin).permit(:name, :email, :password)
+    params.require(:admin).permit(:email, :password)
   end
 end
