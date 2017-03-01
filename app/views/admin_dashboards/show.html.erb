@@ -28,7 +28,7 @@
             <%= link_to "Approve", transaction_request_accept_path(xact), method: :POST  %>
         </td>
         <td>
-            <%= link_to "Reject", "#"  %>
+            <%= link_to "Reject", transaction_request_decline_path(xact), method: :POST  %>
         </td>
     </tr>
 <% end  %>
