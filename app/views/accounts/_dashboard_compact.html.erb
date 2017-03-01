@@ -1,6 +1,6 @@
 <% @current_user.accounts.each do |account| %>
     <ul>
-        <li> <%= account.BankName.to_s + ", " + account.Balance.to_s %>, <%= link_to "view", dashboard_path(account) %>
+        <li> <%= account.AccountName.to_s + ", " + account.Balance.to_s %>, <%= link_to "view", dashboard_path(account) %>
     </ul>
 <% end %>
 
