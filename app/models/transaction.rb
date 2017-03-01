@@ -3,14 +3,14 @@ class Transaction < ApplicationRecord
   belongs_to :dest_account, :class_name => 'Account', optional: true
 
     def self.GetPending
-        Transaction.where(status: "pending")
+        Transaction.where(status: "Pending")
     end
 
     def self.ApproveTransaction(transaction)
-        transaction.status = "approved"
+        transaction.status = "Approved"
     end
 
     def self.RejectTransaction(transaction)
-        transaction.status = "rejected"
+        transaction.status = "Rejected"
     end
 end
