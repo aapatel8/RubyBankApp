@@ -57,12 +57,12 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.save
-        if (@transaction.source_account_id != nil && @transaction.status != "Requested")
+        if (@transaction.source_account_id != nil && @transaction.status == "Completed")
           @source_account = Account.find_by_id(@transaction.source_account_id)
           @new_source_balance = @source_account.Balance - @transaction.amount
           @source_account.update_attributes(:Balance => @new_source_balance)
         end
-        if (@transaction.dest_account_id != nil && @transaction.status != "Requested")
+        if (@transaction.dest_account_id != nil && @transaction.status == "Completed")
           @dest_account = Account.find_by_id(@transaction.dest_account_id)
           @new_dest_balance = @dest_account.Balance + @transaction.amount
           @dest_account.update_attributes(:Balance => @new_dest_balance)
