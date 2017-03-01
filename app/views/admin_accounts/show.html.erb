@@ -1,0 +1,27 @@
+<h1>Admin Account Details</h1>
+
+<ul class="list-group">
+    <li class="list-group-item">
+        Account Id: <%= @account.id %>
+    </li>
+    <li class="list-group-item">
+        Account Name: <%= @account.AccountName %>
+    </li>
+    <li class="list-group-item">
+        Account Balance: <%= @account.Balance %>
+    </li>
+    <li class="list-group-item">
+        Owner's Email: <%= @user.email%>
+    </li>
+
+    <li class="list-group-item">
+        Approval status: <%= @account.Approved || false %>
+    </li>
+</ul>
+
+<div>
+    <%= link_to "Back", admin_accounts_path %> |
+    <%= link_to "Edit", edit_admin_account_path(@account) %> |
+    <%= link_to "Approve", admin_account_approve_path(@account) %> |
+    <%= link_to "Deny", admin_account_deny_path(@account)%> |
+</div>

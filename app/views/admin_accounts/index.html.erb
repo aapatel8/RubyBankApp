@@ -1,0 +1,48 @@
+<h1>Administator Account Directory</h1>
+<table class="table">
+    <tr>
+        <th>
+            Account Number
+        </th>
+        <th>
+            Account Approved
+        </th>
+        <th>
+            Account balance
+        </th>
+    </tr>
+
+    <% @accounts.each do |account| %>
+        <tr>
+            <td>
+                <%= account.id  %>
+            </td>
+            <td>
+                <%= account.Approved  %>
+            </td>
+            <td>
+                <%= account.Balance  %>
+            </td>
+
+            <td>
+                <%= link_to "Details", admin_account_path(account) %>
+            </td>
+
+            <td>
+                <%= link_to "Approve", admin_account_approve_path(account) %>
+            </td>
+
+            <td>
+                <%= link_to "Deny", admin_account_deny_path(account) %>
+            </td>
+
+            <td>
+                <%= link_to "Edit", edit_admin_account_path(account) %>
+            </td>
+
+            <td>
+                <%= link_to "Destroy", admin_account_path(account), :method => :DELETE  %>
+            </td>
+        </tr>
+    <% end %>
+</table>

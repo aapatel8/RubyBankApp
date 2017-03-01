@@ -15,6 +15,8 @@ class AccountsController < ApplicationController
   # GET /accounts/new
   def new
     @account = Account.new
+
+    @account.Approved = false
   end
 
   # GET /accounts/1/edit

@@ -1,0 +1,28 @@
+<%= form_for @account, :url => admin_account_path, :method => :PATCH do |f| %>
+  <% if account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul class="list-group">
+      <% account.errors.full_messages.each do |message| %>
+        <li class="list-group-item"><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+      <div class="form-group">
+      <%= f.label :AccountName%>: 
+      <%= f.text_field :AccountName%>
+      </div>
+      <div class="form-group">
+      <%= f.label :Balance%>
+      <%= f.text_field :Balance%>
+      </div>
+  <div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
 
+  # get 'admin_accounts/index'
+
+  # get 'admin_accounts/show'
+
+  # get 'admin_accounts/update'
+
+  # get 'admin_accounts/delete'
+  resources :admin_accounts, only:[:edit, :update, :destroy, :show, :index, :save]
+
+  get '/admin_account/approve/:id', to: 'admin_accounts#approve', as: :admin_account_approve
+  get '/admin_account/deny/:id', to: 'admin_accounts#deny', as: :admin_account_deny
+
   get '/users/search', to: 'users#search'
   post '/users/search', to: 'users#search'
 

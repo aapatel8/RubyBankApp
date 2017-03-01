@@ -11,13 +11,19 @@ class DashboardController < ApplicationController
         @current_user = current_user
         @uid = @current_user.id
 
+        @accounts = @current_user.accounts.where(Approved: true)
+
+        if(@accounts == nil)
+            @accounts = []
+        end
+
         # Chosing an account
-        @selectedAccount = @current_user.accounts.find_by_id(params[:id])
+        @selectedAccount = @accounts.find_by_id(params[:id])
 
 
         # If no account was selected, we need to try to select one!
         if @selectedAccount == nil
-            @selectedAccount = @current_user.accounts.first
+            @selectedAccount = @accounts.first
         end
 
         # We need to store the selected account's transactiosn for display!
