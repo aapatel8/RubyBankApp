@@ -14,7 +14,7 @@
             <%= xact.status %>
         </td>
         <td>
-            <%= link_to "Approve", "#"  %>
+            <%= link_to "Approve", transaction_request_accept_path(xact), method: :POST  %>
         </td>
         <td>
             <%= link_to "Reject", "#"  %>
