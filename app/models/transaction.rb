@@ -6,6 +6,13 @@ class Transaction < ApplicationRecord
         Transaction.where(status: "Pending")
     end
 
+    def self.GetPendingAdminApproval
+        Transaction.where(["status = ? AND amount >= ?", 
+                           "Pending",
+                           1000.to_s
+        ])
+    end
+
     def self.ApproveTransaction(transaction)
         transaction.status = "Approved"
     end
