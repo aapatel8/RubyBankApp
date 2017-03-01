@@ -1,5 +1,28 @@
-<ul>
-<% @transactions.each do |xact| %>
-    <li> <%= xact.amount %></li>
-<% end %>
-</ul>
+<table>
+  <thead>
+  <tr>
+    <th>Source Account</th>
+    <th>Destination Account</th>
+    <th>Amount</th>
+    <th>Status</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.source_account_id %></td>
+        <td><%= transaction.dest_account_id %></td>
+        <td><%= transaction.amount %></td>
+        <td><%= transaction.status %></td>
+        <% if transaction.status == "Requested" && transaction.source_account_id == @selectedAccount.id %>
+          <td><%= button_to "Accept", { :controller => "transactions", :action => "request_accept", :id => transaction.id} %></td>
+        <% end %>
+        <% if transaction.status == "Requested" && transaction.source_account_id == @selectedAccount.id %>
+            <td><%= button_to "Decline", { :controller => "transactions", :action => "request_decline", :id => transaction.id} %></td>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

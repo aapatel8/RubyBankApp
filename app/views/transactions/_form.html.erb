@@ -12,17 +12,20 @@
   <% end %>
 
   <div class="field">
-    <%= f.hidden_field :account_id %>
+    <%= f.label :source_account_id %>
+    <%= f.number_field :source_account_id %>
+    <%= f.label "Leave blank if depositing" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :dest_account_id %>
+    <%= f.number_field :dest_account_id %>
+    <%= f.label "Leave blank if withdrawing" %>
   </div>
 
   <div class="field">
     <%= f.label :amount %>
     <%= f.number_field :amount %>
-  </div>
-
-  <div class="field">
-    <%= f.label :status %>
-    <%= f.text_field :status %>
   </div>
 
   <div class="actions">

@@ -45,11 +45,14 @@ ActiveRecord::Schema.define(version: 20170225193913) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.integer  "account_id"
+    t.integer  "source_account_id"
+    t.integer  "dest_account_id"
     t.integer  "amount"
     t.string   "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["dest_account_id"], name: "index_transactions_on_dest_account_id"
+    t.index ["source_account_id"], name: "index_transactions_on_source_account_id"
   end
 
   create_table "users", force: :cascade do |t|
