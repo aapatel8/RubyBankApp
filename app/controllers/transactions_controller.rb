@@ -37,7 +37,9 @@ class TransactionsController < ApplicationController
     end
 
     @transaction.status = "Pending"
-    if (@transaction.amount < 1000)
+    if (@transaction.amount < 1000 || @current_user.accounts.ids.include?(@transaction.dest_account_id) ||
+          (@current_user.accounts.ids.include?(@transaction.source_account_id) &&
+              @current_user.accounts.ids.include?(@transaction.dest_account_id)))
       @transaction.status = "Completed"
     end
 
@@ -100,18 +102,26 @@ class TransactionsController < ApplicationController
 
   def request_accept
     @source_account_id = Transaction.find_by_id(params[:id]).source_account_id
+    logger.debug("Source acct id - " + @source_account_id.inspect)
     @amount = Transaction.find_by_id(params[:id]).amount
+    logger.debug("Amount - " + @amount.inspect)
     @source_account = Account.find_by_id(@source_account_id)
     @new_source_balance = @source_account.Balance - @amount
-    @source_account.update_attributes(:Balance => @new_source_balance)
-    Transaction.find_by_source_account_id(@source_account_id).update_attributes(:status => "Completed")
+    logger.debug("New source balance - " + @new_source_balance.inspect)
+    @source_account.update_attributes!(:Balance => @new_source_balance)
+    logger.debug("It should have updated source account")
+    Transaction.find_by_id(params[:id]).update_attributes!(:status => "Completed")
 
     @dest_account_id = Transaction.find_by_id(params[:id]).dest_account_id
+    logger.debug("Dest acct id - " + @dest_account_id.inspect)
     @amount = Transaction.find_by_id(params[:id]).amount
+    logger.debug("Amount - " + @amount.inspect)
     @dest_account = Account.find_by_id(@dest_account_id)
     @new_dest_balance = @dest_account.Balance + @amount
-    @dest_account.update_attributes(:Balance => @new_dest_balance)
-    Transaction.find_by_dest_account_id(@dest_account_id).update_attributes(:status => "Completed")
+    logger.debug("New dest balance - " + @new_dest_balance.inspect)
+    @dest_account.update_attributes!(:Balance => @new_dest_balance)
+    logger.debug("It should have updated dest account")
+    Transaction.find_by_id(params[:id]).update_attributes!(:status => "Completed")
   end
 
   def request_decline
