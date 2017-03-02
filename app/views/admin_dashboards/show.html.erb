@@ -12,6 +12,12 @@
         <th>
             Status
         </th>
+        <th>
+            Source
+        </th>
+        <th>
+            Destination
+        </th>
     </tr>
 <% @pendingXacts.each do |xact|  %>
     <tr>
@@ -23,6 +29,12 @@
         </td>
         <td>
             <%= xact.status %>
+        </td>
+        <td>
+            <%= link_to xact.source_account_id.to_s, admin_account_path(Account.find(xact.source_account_id)) %>
+        </td>
+        <td>
+            <%= link_to xact.dest_account_id.to_s, admin_account_path(Account.find(xact.dest_account_id)) %>
         </td>
         <td>
             <%= link_to "Approve", transaction_request_accept_path(xact), method: :POST  %>
