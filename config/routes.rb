@@ -1,15 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'admin_users/index'
-
-  get 'admin_users/new'
-
-  get 'admin_users/create'
-
-  get 'admin_users/edit'
-
-  get 'admin_users/show'
-
+  resources :admin_users, only:[:index, :new, :create, :edit, :update, :destroy]
   resources :admin_accounts, only:[:edit, :update, :destroy, :show, :index, :save]
 
   get '/admin_account/approve/:id', to: 'admin_accounts#approve', as: :admin_account_approve
@@ -20,9 +11,10 @@ Rails.application.routes.draw do
 
 
 
-  resources :transactions
   devise_for :admins
   devise_for :users 
+
+  resources :transactions
   resources :accounts
   resources :users, only: [:new, :edit, :update, :delete]
   resources :admins, only: [:index, :new, :create, :show, :edit, :update, :destroy]
