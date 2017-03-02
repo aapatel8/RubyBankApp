@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :admin_users, only:[:index, :new, :create, :edit, :update, :destroy]
+  resources :admin_users, only:[:index, :new, :create, :edit, :update, :destroy, :show]
   resources :admin_accounts, only:[:edit, :update, :destroy, :show, :index, :save]
 
   get '/admin_account/approve/:id', to: 'admin_accounts#approve', as: :admin_account_approve
