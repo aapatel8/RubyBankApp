@@ -12,7 +12,7 @@
   <tbody>
     <% @accounts.each do |account| %>
       <tr>
-        <td><%= account.BankName %></td>
+        <td><%= account.AccountName %></td>
         <td><%= account.Balance %></td>
         <td><%= link_to 'Show', account %></td>
         <td><%= link_to 'Edit', edit_account_path(account) %></td>
