@@ -144,12 +144,17 @@ class TransactionsController < ApplicationController
     logger.debug("It should have updated dest account")
 
     Transaction.find_by_id(params[:id]).update_attributes!(:status => "Completed")
+
+    redirect_to :back
   end
 
   def request_decline
     logger.debug("It comes here")
     Transaction.find_by_id(params[:id]).update_attributes(:status => "Denied")
+
+    redirect_to :back
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
