@@ -36,6 +36,25 @@ class TransactionsController < ApplicationController
       raise ArgumentError.new('Source or destination account must be owned by you')
     end
 
+    if (@current_user.accounts.ids.include?(@transaction.source_account_id) &&
+        Account.find_by_id(@transaction.source_account_id).Balance < @transaction.amount)
+      raise ArgumentError.new('Source account has insufficient funds')
+    end
+
+    @friends_accounts = []
+    @current_user.friends.each do |friend|
+      friend.accounts.each do |account|
+        @friends_accounts.push(account)
+      end
+    end
+
+    if ((!@current_user.accounts.ids.include?(@transaction.source_account_id) &&
+        (@friends_accounts.length == 0 || !@friends_accounts.include?(Account.find_by_id(@transaction.source_account_id)))) ||
+        (!@current_user.accounts.ids.include?(@transaction.dest_account_id) &&
+        (@friends_accounts.length == 0 || !@friends_accounts.include?(Account.find_by_id(@transaction.dest_account_id)))))
+      raise ArgumentError.new('Source and destination account must be owned by you/your friend')
+    end
+
     @transaction.status = "Pending"
     if (@transaction.amount < 1000 || @current_user.accounts.ids.include?(@transaction.dest_account_id) ||
           (@current_user.accounts.ids.include?(@transaction.source_account_id) &&
@@ -102,6 +121,9 @@ class TransactionsController < ApplicationController
 
   def request_accept
     @source_account_id = Transaction.find_by_id(params[:id]).source_account_id
+    if (Account.find_by_id(@source_account_id).Balance < Transaction.find_by_id(params[:id]).amount)
+      raise ArgumentError.new('Source account has insufficient funds')
+    end
     logger.debug("Source acct id - " + @source_account_id.inspect)
     @amount = Transaction.find_by_id(params[:id]).amount
     logger.debug("Amount - " + @amount.inspect)
@@ -110,7 +132,6 @@ class TransactionsController < ApplicationController
     logger.debug("New source balance - " + @new_source_balance.inspect)
     @source_account.update_attributes!(:Balance => @new_source_balance)
     logger.debug("It should have updated source account")
-    Transaction.find_by_id(params[:id]).update_attributes!(:status => "Completed")
 
     @dest_account_id = Transaction.find_by_id(params[:id]).dest_account_id
     logger.debug("Dest acct id - " + @dest_account_id.inspect)
@@ -121,14 +142,13 @@ class TransactionsController < ApplicationController
     logger.debug("New dest balance - " + @new_dest_balance.inspect)
     @dest_account.update_attributes!(:Balance => @new_dest_balance)
     logger.debug("It should have updated dest account")
+
     Transaction.find_by_id(params[:id]).update_attributes!(:status => "Completed")
   end
 
   def request_decline
-    @source_account_id = Transaction.find_by_id(params[:id]).source_account_id
-    @dest_account_id = Transaction.find_by_id(params[:id]).dest_account_id
-    Transaction.find_by_source_account_id(@source_account_id).update_attributes(:status => "Completed")
-    Transaction.find_by_dest_account_id(@dest_account_id).update_attributes(:status => "Completed")
+    logger.debug("It comes here")
+    Transaction.find_by_id(params[:id]).update_attributes(:status => "Denied")
   end
 
   private
