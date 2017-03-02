@@ -20,5 +20,76 @@
             <td> <%= @user.email %> </td>
             <td> <%= @user.password %> </td>
         </tr>
+
+        <tr>
+            <table class="table">
+                <tr>
+                    <th>
+                        Account Name
+                    </th>
+                    <th>
+                        Account Number
+                    </th>
+                    <th>
+                        Account Balance
+                    </th>
+                </tr>
+                <% @user.accounts.each do  |account| %>
+                <tr>
+                    <td>
+                        <%= account.AccountName %>
+                    </td>
+                    <td>
+                        <%= account.id %>
+                    </td>
+                    <td>
+                        <%= account.Balance %>
+                    </td>
+                </tr>
+
+                <tr>
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Transaction Id
+                            </th>
+                            <th>
+                                Transaction Amount
+                            </th>
+                            <th>
+                                Transaction Source Account
+                            </th>
+                            <th>
+                                Transaction Destination Account
+                            </th>
+                            <th>
+                                Transaction Status
+                            </th>
+                        </tr>
+
+                        <% (account.losses + account.gains).each do |xact|  %>
+                            <tr>
+                                <td>
+                                    <%= xact.id %>
+                                </td>
+                                <td>
+                                    <%= xact.amount %>
+                                </td>
+                                <td>
+                                    <%= xact.source_account_id %>
+                                </td>
+                                <td>
+                                    <%= xact.dest_account_id %>
+                                </td>
+                                <td>
+                                    <%= xact.status %>
+                                </td>
+                            </tr>
+                        <% end  %>
+                    </table>
+                </tr>
+                <% end  %>
+            </table>
+        </tr>
     </table>
 </div>
