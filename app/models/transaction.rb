@@ -15,9 +15,13 @@ class Transaction < ApplicationRecord
 
     def self.ApproveTransaction(transaction)
         transaction.status = "Approved"
+
+        return transaction
     end
 
     def self.RejectTransaction(transaction)
         transaction.status = "Rejected"
+
+        return transaction
     end
 end
