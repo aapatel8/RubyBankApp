@@ -38,7 +38,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                   <ul class="nav navbar-nav">
-                    <% if !admin_signed_in? %>
+                    <% if user_signed_in? %>
                         <li class=""><%= link_to "Home", root_path%></li>
                         <li><%= link_to "Friends",  friendship_index_path %></li>
                         <li><%= link_to "Transactions", transactions_path %></li>
@@ -66,11 +66,11 @@
                     <!-- <li><a href="../navbar/">Default</a></li>
                     <li><a href="../navbar-static-top/">Static top</a></li>
                     <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li> -->
-                    <% if !admin_signed_in? || admin_signed_in?  %>
+                    <% if user_signed_in? || admin_signed_in?  %>
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Account<span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                        <% if !admin_signed_in? %>
+                        <% if user_signed_in? %>
                             <li><span class="fakeAnchor"> <%= button_to "Sign out", destroy_user_session_path, :method => :delete, :form_class => "link_button_form" %></span></li>
                         <%  end  %>
 
@@ -78,7 +78,7 @@
                             <li><span class="fakeAnchor"> <%= button_to "Sign out", destroy_admin_session_path, :method => :delete, :form_class => "link_button_form" %></span></li>
                         <%  end  %>
                         <li role="separator" class="divider"></li>
-                        <% if !admin_signed_in? %>
+                        <% if user_signed_in? %>
                             <li><span class="fakeAnchor"><%= "Account (" + current_user.email + ")" %></span></li>
                         <%  end  %>
 
@@ -96,7 +96,6 @@
     <div style="margin-top: 60px;" class="container">
         <%= yield %>
     </div>
-    <%= console  %>
   </body>
 <style>
 </style>
