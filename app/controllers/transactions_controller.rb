@@ -75,7 +75,9 @@ class TransactionsController < ApplicationController
           end
         end
       end
-      if (!@has_friend_account)
+      if (!(@current_user.accounts.ids.include?(@transaction.source_account_id) ||
+          @current_user.accounts.ids.include?(@transaction.dest_account_id)) &&
+          !@has_friend_account)
         raise ArgumentError.new('Source and destination account must be owned by you/your friend')
       end
     end
@@ -161,6 +163,27 @@ class TransactionsController < ApplicationController
     redirect_to :back
   end
 
+  def approve_transaction
+    @source_account_id = Transaction.find_by_id(params[:id]).source_account_id
+    @dest_account_id = Transaction.find_by_id(params[:id]).dest_account_id
+    @amount = Transaction.find_by_id(params[:id]).amount
+    if (@source_account_id != nil)
+      if (Account.find_by_AccountNumber(@source_account_id).Balance < Transaction.find_by_id(params[:id]).amount)
+        raise ArgumentError.new('Source account has insufficient funds')
+      end
+      @source_account = Account.find_by_AccountNumber(@source_account_id)
+      @new_source_balance = @source_account.Balance - @amount
+      @source_account.update_attributes!(:Balance => @new_source_balance)
+    end
+    else if (@dest_account_id != nil)
+      @dest_account = Account.find_by_AccountNumber(@dest_account_id)
+      @new_dest_balance = @dest_account.Balance + @amount
+      @dest_account.update_attributes!(:Balance => @new_source_balance)
+    end
+    Transaction.find_by_id(params[:id]).update_attributes!(:status => "Completed")
+
+    redirect_to :back
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

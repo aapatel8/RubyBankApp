@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   post '/transaction/request_accept/:id', to: 'transactions#request_accept', as: :transaction_request_accept
   post '/transaction/request_decline/:id', to: 'transactions#request_decline', as: :transaction_request_decline
+  post '/transaction/approve_transaction/:id', to: 'transactions#approve_transaction', as: :transaction_approve_transaction
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
