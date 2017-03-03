@@ -31,7 +31,7 @@ class AccountsController < ApplicationController
     if ! @account.errors.any?
         redirect_to root_path
     else
-        redirect_to root_path, :flash => { :error => @account.errors.full_messages.join(', ') }
+        redirect_to new_account_path, :flash => { :error => @account.errors.full_messages.join(', ') }
 
     end
   end
