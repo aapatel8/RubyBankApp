@@ -72,8 +72,11 @@ class AdminsController < ApplicationController
       @invincibleAdmin = Admin.GetDefaultAdmin
 
     if @admin.email == @invincibleAdmin.email 
-      raise IllegalOperationException
+      raise "IllegalOperationException"
+    elsif @admin.email == current_admin.email # We'll ban deleting the currently logged in user too
+      raise "NullPointerException"
     end
+
     @admin.destroy
     respond_to do |format|
       format.html { redirect_to admins_url, notice: 'Admin was successfully destroyed.' }
