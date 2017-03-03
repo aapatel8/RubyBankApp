@@ -1,4 +1,7 @@
 <%= form_for(account) do |f| %>
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
   <% if account.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>

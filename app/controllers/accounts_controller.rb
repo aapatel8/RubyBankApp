@@ -26,9 +26,15 @@ class AccountsController < ApplicationController
   # POST /accounts
   # POST /accounts.json
   def create
-    current_user.accounts.create(account_params)
+    @account = current_user.accounts.create(account_params)
 
-    redirect_to root_path
+    if ! @account.errors.any?
+        redirect_to root_path
+    else
+        redirect_to new_account_path, :flash => { :error => @account.errors.full_messages.join(', ') }
+
+    end
+
   end
 
   # PATCH/PUT /accounts/1

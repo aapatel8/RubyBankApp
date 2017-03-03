@@ -37,7 +37,7 @@ class TransactionsController < ApplicationController
     end
 
     if (@current_user.accounts.ids.include?(@transaction.source_account_id) &&
-        Account.find_by_id(@transaction.source_account_id).Balance < @transaction.amount)
+        Account.find_by_AccountNumber(@transaction.source_account_id).Balance < @transaction.amount)
       raise ArgumentError.new('Source account has insufficient funds')
     end
 
@@ -48,10 +48,12 @@ class TransactionsController < ApplicationController
       end
     end
 
-    if ((!@current_user.accounts.ids.include?(@transaction.source_account_id) &&
-        (@friends_accounts.length == 0 || !@friends_accounts.include?(Account.find_by_id(@transaction.source_account_id)))) ||
-        (!@current_user.accounts.ids.include?(@transaction.dest_account_id) &&
-        (@friends_accounts.length == 0 || !@friends_accounts.include?(Account.find_by_id(@transaction.dest_account_id)))))
+    if ((@transaction.source_account_id != nil &&
+        !@current_user.accounts.ids.include?(@transaction.source_account_id) &&
+        (@friends_accounts.length == 0 || !@friends_accounts.include?(Account.find_by_AccountNumber(@transaction.source_account_id)))) ||
+        (@transaction.dest_account_id != nil &&
+        !@current_user.accounts.ids.include?(@transaction.dest_account_id) &&
+        (@friends_accounts.length == 0 || !@friends_accounts.include?(Account.find_by_AccountNumber(@transaction.dest_account_id)))))
       raise ArgumentError.new('Source and destination account must be owned by you/your friend')
     end
 
@@ -63,26 +65,30 @@ class TransactionsController < ApplicationController
     end
 
     if ((@transaction.source_account_id != nil) && (@transaction.dest_account_id != nil))
-      @request_from_friend = false
+      @has_friend_account = false
       @current_user.friends.each do |friend|
         friend.accounts.each do |account|
-          if (account.id == @transaction.source_account_id)
+          if (account.id == @transaction.source_account_id &&
+              Friendship.all.where(:user_id => friend.id, :friend_id => @current_user.id).length == 1)
             @has_friend_account = true
             @transaction.status = "Requested"
           end
         end
+      end
+      if (!@has_friend_account)
+        raise ArgumentError.new('Source and destination account must be owned by you/your friend')
       end
     end
 
     respond_to do |format|
       if @transaction.save
         if (@transaction.source_account_id != nil && @transaction.status == "Completed")
-          @source_account = Account.find_by_id(@transaction.source_account_id)
+          @source_account = Account.find_by_AccountNumber(@transaction.source_account_id)
           @new_source_balance = @source_account.Balance - @transaction.amount
           @source_account.update_attributes(:Balance => @new_source_balance)
         end
         if (@transaction.dest_account_id != nil && @transaction.status == "Completed")
-          @dest_account = Account.find_by_id(@transaction.dest_account_id)
+          @dest_account = Account.find_by_AccountNumber(@transaction.dest_account_id)
           @new_dest_balance = @dest_account.Balance + @transaction.amount
           @dest_account.update_attributes(:Balance => @new_dest_balance)
         end
@@ -121,13 +127,13 @@ class TransactionsController < ApplicationController
 
   def request_accept
     @source_account_id = Transaction.find_by_id(params[:id]).source_account_id
-    if (Account.find_by_id(@source_account_id).Balance < Transaction.find_by_id(params[:id]).amount)
+    if (Account.find_by_AccountNumber(@source_account_id).Balance < Transaction.find_by_id(params[:id]).amount)
       raise ArgumentError.new('Source account has insufficient funds')
     end
     logger.debug("Source acct id - " + @source_account_id.inspect)
     @amount = Transaction.find_by_id(params[:id]).amount
     logger.debug("Amount - " + @amount.inspect)
-    @source_account = Account.find_by_id(@source_account_id)
+    @source_account = Account.find_by_AccountNumber(@source_account_id)
     @new_source_balance = @source_account.Balance - @amount
     logger.debug("New source balance - " + @new_source_balance.inspect)
     @source_account.update_attributes!(:Balance => @new_source_balance)
@@ -137,7 +143,7 @@ class TransactionsController < ApplicationController
     logger.debug("Dest acct id - " + @dest_account_id.inspect)
     @amount = Transaction.find_by_id(params[:id]).amount
     logger.debug("Amount - " + @amount.inspect)
-    @dest_account = Account.find_by_id(@dest_account_id)
+    @dest_account = Account.find_by_AccountNumber(@dest_account_id)
     @new_dest_balance = @dest_account.Balance + @amount
     logger.debug("New dest balance - " + @new_dest_balance.inspect)
     @dest_account.update_attributes!(:Balance => @new_dest_balance)

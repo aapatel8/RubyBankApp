@@ -1,6 +1,9 @@
-<table>
+<div>
+<table class="table">
   <thead>
   <tr>
+    <th>Created On</th>
+    <th>Last Updated</th>
     <th>Source Account</th>
     <th>Destination Account</th>
     <th>Amount</th>
@@ -12,6 +15,8 @@
   <tbody>
   <% @transactions.each do |transaction| %>
       <tr>
+        <td><%= transaction.created_at %></td>
+        <td><%= transaction.updated_at %></td>
         <td><%= transaction.source_account_id %></td>
         <td><%= transaction.dest_account_id %></td>
         <td><%= transaction.amount %></td>
@@ -26,3 +31,4 @@
   <% end %>
   </tbody>
 </table>
+</div>
