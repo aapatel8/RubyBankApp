@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to "/dashboard/", notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -74,15 +74,11 @@ class UsersController < ApplicationController
 
   def search
     if params[:param]!=nil
-    if(params[:type] == "email")
-      @users = User.where("email like '%" + params[:param] + "%'")
-
-
-    else
-      @users = User.where("name like '%" + params[:param] + "%'")
-
-
-    end
+      if(params[:type] == "email")
+        @users = User.where("email like '%" + params[:param] + "%'")
+      else
+        @users = User.where("name like '%" + params[:param] + "%'")
+      end
     end
   end
 
