@@ -15,6 +15,10 @@
           <%= f.label :AccountName %> <br />
           <%= f.text_field :AccountName %>
       </p>
+    <p>
+      <%= f.label :AccountNumber %>
+      <%= f.text_field :AccountNumber %>
+    </p>
       <p>
           <%= f.label :Balance %>
           <%= f.text_field :Balance %>
@@ -23,6 +27,7 @@
         <%= f.label :Status %>
         <%= f.select :status, ['enabled', 'disabled']%>
     </p>
+
   </div>
 
   <div class="actions">

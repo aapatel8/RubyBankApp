@@ -10,16 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301210415) do
+ActiveRecord::Schema.define(version: 20170303003923) do
 
   create_table "accounts", force: :cascade do |t|
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.string   "AccountName"
     t.float    "Balance"
     t.integer  "user_id"
     t.string   "status"
     t.boolean  "Approved"
+    t.string   "AccountNumber"
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
