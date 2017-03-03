@@ -18,7 +18,9 @@ class DashboardController < ApplicationController
         end
 
         # Chosing an account
-        @selectedAccount = @accounts.find_by_id(params[:id])
+        if (@accounts.length > 0)
+            @selectedAccount = @accounts.find_by_AccountNumber(params[:id])
+        end
 
 
         # If no account was selected, we need to try to select one!

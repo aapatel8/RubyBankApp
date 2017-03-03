@@ -1,3 +1,4 @@
+<div class="container">
 <h1> Welcome to your dashboard! </h1>
 
 <%= render 'accounts/dashboard_compact' %>
@@ -5,4 +6,8 @@
 <%= render 'transactions/dashboard_list' %>
 
 <%= link_to 'New Account', new_account_path %>
-<%= link_to 'Edit My User Account', edit_user_path(@uid)%>
+<%= link_to 'Edit My User Account', edit_user_path(@uid) %>
+
+</div>
+
+<% console %>
