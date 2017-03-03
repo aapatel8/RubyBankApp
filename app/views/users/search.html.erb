@@ -5,8 +5,10 @@
 
     <%= label_tag(:param, "Search for:") %>
     <%= text_field_tag(:param) %>
-    <%= label_tag(:type, "Type:") %>
-    <%= text_field_tag(:type) %>
+    <%= radio_button_tag(:type, "email") %>
+    <%= label_tag(:email, "Search by email") %>
+    <%= radio_button_tag(:age, "name") %>
+    <%= label_tag(:name, "Search by name") %>
     <%= submit_tag("Search") %>
 <% end %>
 <br><br>
