@@ -27,6 +27,8 @@ class AccountsController < ApplicationController
   # POST /accounts.json
   def create
     current_user.accounts.create(account_params)
+
+    redirect_to root_path
   end
 
   # PATCH/PUT /accounts/1

@@ -4,8 +4,8 @@ class AdminDashboardsController < ApplicationController
 
     def show
 
-        @current_user = current_admin
-        @uid = @current_user.id
+        @current_admin = current_admin
+        @uid = @current_admin.id
 
 
         @pendingXacts = Transaction.GetPendingAdminApproval
