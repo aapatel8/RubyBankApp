@@ -14,9 +14,9 @@
 <br><br>
 <table>
   <thead>
-  <td>Name</td>
-  <td>Email</td>
-  <td>ID</td>
+  <th>Name&nbsp;&nbsp;</th>
+  <th>Email</th>
+  <th>&nbsp;&nbsp;ID</th>
   </thead>
 <tbody>
   <% if @users != nil
@@ -24,7 +24,7 @@
       <tr>
         <td> <%= user.name %> </td>
         <td> <%= user.email%> </td>
-        <td>  <%= user.id%> </td>
+        <td> &nbsp;&nbsp;<%= user.id%> </td>
       </tr>
     <% end %>
   <% end %>

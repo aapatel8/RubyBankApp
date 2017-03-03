@@ -13,6 +13,7 @@
   <tbody>
   <% @friendships.each do |friendship| %>
       <tr>
+        <td> <%= friendship.friend.name%>&nbsp;&nbsp; </td>
         <td> <%= friendship.friend.email%> </td>
         <td> 
             <%= button_to "Remove friend", friendship_path(friendship), :method => :delete, :form_class => "link_button_form" %>
@@ -38,6 +39,7 @@
   <% @potentialFriends.each do |user| %>
       <% if user != @current_user  %>
       <tr>
+        <td><%= user.name%>&nbsp;&nbsp; </td>
         <td><%= user.email%> </td>
         <td> 
             <% if @friendships.find_by_friend_id(user) == nil %>
