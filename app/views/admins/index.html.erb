@@ -10,7 +10,7 @@
         </td>
 
         <td>
-            <% if admin != @invincibleAdmin  %>
+            <% if admin != @invincibleAdmin && admin != current_admin  %>
                 <%= link_to "delete", admin_path(admin), method: :delete %>
             <% end  %>
         </td>
