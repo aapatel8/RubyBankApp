@@ -41,7 +41,6 @@
                     <% if user_signed_in? %>
                         <li class=""><%= link_to "Home", root_path%></li>
                         <li><%= link_to "Friends",  friendship_index_path %></li>
-                        <li><%= link_to "Transactions", transactions_path %></li>
                     <% end %>
                     <% if admin_signed_in? %>
                         <li> <%= link_to "Home", admin_dashboard_path %></li>

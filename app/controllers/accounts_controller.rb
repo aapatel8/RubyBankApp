@@ -34,6 +34,7 @@ class AccountsController < ApplicationController
         redirect_to new_account_path, :flash => { :error => @account.errors.full_messages.join(', ') }
 
     end
+
   end
 
   # PATCH/PUT /accounts/1
