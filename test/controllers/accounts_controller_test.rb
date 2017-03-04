@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class AccountsControllerTest < ActionDispatch::IntegrationTest
+   include Devise::Test::ControllerHelpers
+
   setup do
     @account = accounts(:one)
+
   end
 
   test "should get index" do
@@ -17,7 +20,7 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create account" do
     assert_difference('Account.count') do
-      post accounts_url, params: { account: {  } }
+        post accounts_url, params: { account: { :AccountNumber => "123456789", :AccountName => "My Checking", :Balance => "999912341239", :status => "enabled", :Approved => true, :user_id => 1  } }
     end
 
     assert_redirected_to account_url(Account.last)
@@ -29,12 +32,18 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit" do
+    sign_in users(:one)
+
     get edit_account_url(@account)
     assert_response :success
+
+    sign_out users :one
   end
 
   test "should update account" do
-    patch account_url(@account), params: { account: {  } }
+    puts(Account.create!(:AccountNumber => "123456789", :AccountName => "My Checking", :Balance => "999912341239", :status => "enabled", :Approved => true, :user_id => 1).inspect)
+
+    patch account_url(@account), params: { id: 123456789, account: { :Balance => 100, :AccountName => "Checking", :status => "enabled", :AccountNumber => "123456789" } }
     assert_redirected_to account_url(@account)
   end
 
