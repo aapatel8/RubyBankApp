@@ -179,7 +179,7 @@ class TransactionsController < ApplicationController
     else if (@dest_account_id != nil)
       @dest_account = Account.find_by_AccountNumber(@dest_account_id)
       @new_dest_balance = @dest_account.Balance + @amount
-      @dest_account.update_attributes!(:Balance => @new_source_balance)
+      @dest_account.update_attributes!(:Balance => @new_dest_balance)
     end
     Transaction.find_by_id(params[:id]).update_attributes!(:status => "Completed")
 
