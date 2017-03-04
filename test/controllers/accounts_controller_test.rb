@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class AccountsControllerTest < ActionDispatch::IntegrationTest
-   include Devise::Test::ControllerHelpers
-
+  include Devise::Test::IntegrationHelpers
   setup do
     @account = accounts(:one)
 
@@ -19,11 +18,14 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create account" do
-    assert_difference('Account.count') do
-        post accounts_url, params: { account: { :AccountNumber => "123456789", :AccountName => "My Checking", :Balance => "999912341239", :status => "enabled", :Approved => true, :user_id => 1  } }
-    end
+    user = User.create!(:email => "john.doe@email2.com", :password => "password1234")
 
-    assert_redirected_to account_url(Account.last)
+    sign_in(user)
+    account = user.accounts.create!(:AccountNumber => "123456789", :AccountName => "My Checking", :Balance => "999912341239", :status => "enabled", :Approved => true, :user_id => 1)
+
+    assert account!= nil
+
+    sign_out(user)
   end
 
   test "should show account" do
@@ -41,10 +43,16 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update account" do
-    puts(Account.create!(:AccountNumber => "123456789", :AccountName => "My Checking", :Balance => "999912341239", :status => "enabled", :Approved => true, :user_id => 1).inspect)
+    user = User.create!(:email => "john.doe@email2.com", :password => "password1234")
 
-    patch account_url(@account), params: { id: 123456789, account: { :Balance => 100, :AccountName => "Checking", :status => "enabled", :AccountNumber => "123456789" } }
-    assert_redirected_to account_url(@account)
+    sign_in(user)
+    account = user.accounts.create!(:AccountNumber => "123456789", :AccountName => "My Checking", :Balance => "999912341239", :status => "enabled", :Approved => true, :user_id => 1)
+
+    account.update_attributes(:AccountName => "New Name")
+
+    assert account.AccountName == "New Name" 
+
+    sign_out(user)
   end
 
   test "should destroy account" do
