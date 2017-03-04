@@ -40,7 +40,7 @@ class AccountsController < ApplicationController
   # PATCH/PUT /accounts/1
   # PATCH/PUT /accounts/1.json
   def update
-      @account = current_user.accounts.find( params[:id] )
+      @account = current_user.accounts.find_by_AccountNumber( params[:id] )
       @account.update_attributes( account_params )
   end
 
