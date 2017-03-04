@@ -58,9 +58,10 @@ class TransactionsController < ApplicationController
     end
 
     @transaction.status = "Pending"
-    if (@transaction.amount < 1000 || @current_user.accounts.ids.include?(@transaction.dest_account_id) ||
+    if (@transaction.source_account_id != nil && (@transaction.amount <= 1000 ||
+        @current_user.accounts.ids.include?(@transaction.dest_account_id) ||
           (@current_user.accounts.ids.include?(@transaction.source_account_id) &&
-              @current_user.accounts.ids.include?(@transaction.dest_account_id)))
+              @current_user.accounts.ids.include?(@transaction.dest_account_id))))
       @transaction.status = "Completed"
     end
 
